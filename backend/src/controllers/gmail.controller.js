@@ -6,7 +6,7 @@ import {
 
 import {
   getTokens
-} from "../utils/tokenStore.js";
+} from "../utils/tokenstore.js";
 
 import {
   emailQueue
