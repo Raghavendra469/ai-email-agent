@@ -16,12 +16,15 @@ export const whatsappClient = new Client({
   authStrategy: new LocalAuth(),
 
   puppeteer: {
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
 
     headless: true,
     args:[
       "--no-sandbox",
 
       "--disable-setuid-sandbox",
+
+      "--disable-dev-shm-usage",
     ]
 
   },
