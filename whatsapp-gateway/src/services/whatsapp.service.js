@@ -18,11 +18,20 @@ export const whatsappClient = new Client({
 
   puppeteer: {
     headless: true,
-
-    executablePath:
-      await chromium.executablePath(),
-
-    args: chromium.args,
+    executablePath: await chromium.executablePath(),
+    args: [
+      ...chromium.args,
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",      // ← most important for Railway
+      "--disable-accelerated-2d-canvas",
+      "--no-first-run",
+      "--no-zygote",
+      "--single-process",             // ← helps on low memory envs
+      "--disable-gpu",
+    ],
+    protocolTimeout: 60000,           // ← fixes the timeout error
+    timeout: 60000,
   },
 
 });
