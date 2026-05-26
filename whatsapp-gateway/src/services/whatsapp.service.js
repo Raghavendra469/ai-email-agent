@@ -1,6 +1,7 @@
 import pkg from "whatsapp-web.js";
 
 import qrcode from "qrcode-terminal";
+import QRCode from "qrcode";
 
 import axios from "axios";
 import chromium from "@sparticuz/chromium";
@@ -40,12 +41,15 @@ whatsappClient.on(
     console.log(
       "📲 Scan this QR Code"
     );
+    const qrImage = await QRCode.toDataURL(qr);
 
-    qrcode.generate(qr, {
+    console.log(qrImage);
 
-      small: true,
+    // qrcode.generate(qr, {
 
-    });
+    //   small: true,
+
+    // });
 
   }
 
