@@ -3,7 +3,7 @@ import { convert } from "html-to-text";
 
 import { createOAuthClient } from "../services/gmail.service.js";
 
-import { getTokens } from "../utils/tokenStore.js";
+import { getTokens } from "../utils/tokenstore.js";
 import { cleanEmailBody } from "../utils/cleanEmail.js";
 
 import { emailQueue } from "../queues/email.queue.js";

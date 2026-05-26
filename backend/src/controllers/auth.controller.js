@@ -5,7 +5,7 @@ import {
   createOAuthClient,
 } from "../services/gmail.service.js";
 
-import { saveTokens } from "../utils/tokenStore.js";
+import { saveTokens } from "../utils/tokenstore.js";
 
 export const googleLogin = (req, res) => {
   const url = getAuthUrl();
