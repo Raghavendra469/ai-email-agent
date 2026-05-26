@@ -3,7 +3,7 @@ import pkg from "whatsapp-web.js";
 import qrcode from "qrcode-terminal";
 
 import axios from "axios";
-
+import chromium from "@sparticuz/chromium";
 const { Client, LocalAuth } = pkg;
 
 
@@ -17,15 +17,8 @@ export const whatsappClient = new Client({
 
   puppeteer: {
     headless: true,
-    executablePath:
-      process.env.PUPPETEER_EXECUTABLE_PATH ||
-      "/usr/bin/chromium",
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-gpu",
-    ],
+    executablePath: await chromium.executablePath(),
+    args: chromium.args,
   },
 
 });
