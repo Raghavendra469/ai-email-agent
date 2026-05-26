@@ -18,6 +18,11 @@ export const whatsappClient = new Client({
   puppeteer: {
 
     headless: true,
+    args:[
+      "--no-sandbox",
+
+      "--disable-setuid-sandbox",
+    ]
 
   },
 
@@ -238,7 +243,7 @@ export const sendWhatsAppMessage =
       const response =
         await axios.post(
 
-          "http://localhost:5000/gmail/approval",
+          "https://ai-email-backend-7z1f.onrender.com/gmail/approval",
 
           {
 
