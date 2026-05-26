@@ -17,15 +17,15 @@ export const whatsappClient = new Client({
 
   puppeteer: {
     headless: true,
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-    args:[
+    executablePath:
+      process.env.PUPPETEER_EXECUTABLE_PATH ||
+      "/usr/bin/chromium",
+    args: [
       "--no-sandbox",
-
       "--disable-setuid-sandbox",
-
       "--disable-dev-shm-usage",
-    ]
-
+      "--disable-gpu",
+    ],
   },
 
 });
