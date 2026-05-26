@@ -5,7 +5,8 @@ import QRCode from "qrcode";
 
 import {
   initializeWhatsApp,
-  sendWhatsAppMessage
+  sendWhatsAppMessage,
+  getLatestQR
 } from "./services/whatsapp.service.js";
 
 
