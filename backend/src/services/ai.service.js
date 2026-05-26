@@ -1,4 +1,7 @@
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 
 export const analyzeEmail = async (
@@ -7,12 +10,13 @@ export const analyzeEmail = async (
 
   try {
 
-    const response = await axios.post(
+    const response =
+    await axios.post(
 
-      "http://127.0.0.1:8000/analyze",
+      `${process.env.AI_AGENT_URL}/analyze`,
 
       {
-        email,
+        email: email
       }
 
     );
