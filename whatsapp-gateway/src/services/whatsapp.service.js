@@ -17,13 +17,11 @@ export const whatsappClient = new Client({
 
   puppeteer: {
     headless: true,
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-gpu",
-      "--single-process",
-    ],
+
+    executablePath:
+      await chromium.executablePath(),
+
+    args: chromium.args,
   },
 
 });
