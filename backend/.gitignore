@@ -1,0 +1,11 @@
+tokens.json
+/src/generated/prisma
+node_modules
+venv
+.env
+__pycache__
+.wwebjs_auth
+dist
+build
+
+/src/generated/prisma

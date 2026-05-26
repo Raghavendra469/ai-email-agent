@@ -1,0 +1,295 @@
+import pkg from "whatsapp-web.js";
+
+import qrcode from "qrcode-terminal";
+
+import axios from "axios";
+
+const { Client, LocalAuth } = pkg;
+
+
+// =====================================
+// CREATE CLIENT
+// =====================================
+
+export const whatsappClient = new Client({
+
+  authStrategy: new LocalAuth(),
+
+  puppeteer: {
+
+    headless: true,
+
+  },
+
+});
+
+
+// =====================================
+// QR EVENT
+// =====================================
+
+whatsappClient.on(
+
+  "qr",
+
+  (qr) => {
+
+    console.log(
+      "📲 Scan this QR Code"
+    );
+
+    qrcode.generate(qr, {
+
+      small: true,
+
+    });
+
+  }
+
+);
+
+
+// =====================================
+// READY EVENT
+// =====================================
+
+whatsappClient.on(
+
+  "ready",
+
+  () => {
+
+    console.log(
+      "✅ WhatsApp Client Ready"
+    );
+
+  }
+
+);
+
+
+// =====================================
+// AUTHENTICATED
+// =====================================
+
+whatsappClient.on(
+
+  "authenticated",
+
+  () => {
+
+    console.log(
+      "✅ WhatsApp Authenticated"
+    );
+
+  }
+
+);
+
+
+// =====================================
+// AUTH FAILURE
+// =====================================
+
+whatsappClient.on(
+
+  "auth_failure",
+
+  (msg) => {
+
+    console.log(
+      "❌ WhatsApp Auth Failed"
+    );
+
+    console.log(msg);
+
+  }
+
+);
+
+
+// =====================================
+// DISCONNECTED
+// =====================================
+
+whatsappClient.on(
+
+  "disconnected",
+
+  () => {
+
+    console.log(
+      "⚠️ WhatsApp Disconnected"
+    );
+
+  }
+
+);
+
+
+// =====================================
+// SEND MESSAGE
+// =====================================
+
+export const sendWhatsAppMessage =
+  async (
+
+    number,
+
+    message
+
+  ) => {
+
+    try {
+
+      if (!number) {
+
+        console.log(
+          "❌ WhatsApp number missing"
+        );
+
+        return;
+
+      }
+
+
+      const chatId =
+        `${number}@c.us`;
+
+
+      await whatsappClient.sendMessage(
+
+        chatId,
+
+        message
+
+      );
+
+
+      console.log(
+        "✅ WhatsApp message sent"
+      );
+
+    } catch (error) {
+
+      console.log(
+        "❌ WhatsApp Send Error:"
+      );
+
+      console.log(error.message);
+
+    }
+
+  };
+
+
+  whatsappClient.on(
+
+  "message_create",
+
+  async (message) => {
+
+    try {
+
+      console.log(
+        "📩 Incoming WhatsApp Message:"
+      );
+
+      console.log(
+        message.body
+      );
+
+
+      const text =
+        message.body
+          .trim()
+          .toUpperCase();
+
+
+      const approvalMatch =
+        text.match(
+          /^(YES|NO)\s+(\S+)/
+        );
+
+
+      if (!approvalMatch) {
+        return;
+      }
+
+
+      const command =
+        approvalMatch[1];
+
+      const approvalId =
+        approvalMatch[2];
+
+
+      console.log(
+        "✅ Approval Command:",
+        command
+      );
+
+      console.log(
+        "🆔 Approval ID:",
+        approvalId
+      );
+
+
+      const response =
+        await axios.post(
+
+          "http://localhost:5000/gmail/approval",
+
+          {
+
+            command,
+
+            approvalId
+
+          }
+
+        );
+
+
+      console.log(
+        "✅ Backend Approval Response:"
+      );
+
+      console.log(
+        response.data
+      );
+
+
+      await message.reply(
+
+        response.data.message
+
+      );
+
+    } catch (error) {
+
+      console.log(
+        "❌ Approval Listener Error:"
+      );
+
+      console.log(
+        error.message
+      );
+
+    }
+
+  }
+
+);
+
+
+// =====================================
+// INITIALIZE CLIENT
+// =====================================
+
+export const initializeWhatsApp =
+  () => {
+
+    whatsappClient.initialize();
+
+  };
