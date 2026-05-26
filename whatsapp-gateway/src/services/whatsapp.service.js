@@ -31,7 +31,7 @@ export const whatsappClient = new Client({
 // =====================================
 // QR EVENT
 // =====================================
-
+let latestQR = null;
 whatsappClient.on(
 
   "qr",
@@ -41,9 +41,10 @@ whatsappClient.on(
     console.log(
       "📲 Scan this QR Code"
     );
-    const qrImage = await QRCode.toDataURL(qr);
+    latestQR = qr;
+    // const qrImage = await QRCode.toDataURL(qr);
 
-    console.log(qrImage);
+    // console.log(qrImage);
 
     // qrcode.generate(qr, {
 
@@ -288,6 +289,8 @@ export const sendWhatsAppMessage =
   }
 
 );
+
+export const getLatestQR = () => latestQR;
 
 
 // =====================================

@@ -1,11 +1,13 @@
 import express from "express";
 
 import dotenv from "dotenv";
+import QRCode from "qrcode"; 
 
 import {
   initializeWhatsApp,
   sendWhatsAppMessage
 } from "./services/whatsapp.service.js";
+
 
 dotenv.config();
 
@@ -51,6 +53,21 @@ app.post(
   }
 
 );
+
+app.get("/qr", async (req, res) => {
+  const qr = getLatestQR();
+  if (!qr) {
+    return res.send(`
+      <html><body style="font-family:sans-serif;padding:20px">
+        <h2>QR not ready yet</h2>
+        <p>Wait 10 seconds and <a href="/qr">refresh</a></p>
+      </body></html>
+    `);
+  }
+  const img = await QRCode.toBuffer(qr);
+  res.setHeader("Content-Type", "image/png");
+  res.send(img);
+});
 
 
 app.get("/health", (req, res) => {
