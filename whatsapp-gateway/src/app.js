@@ -1,16 +1,14 @@
-import express from "express";
-
 import dotenv from "dotenv";
-import QRCode from "qrcode"; 
+dotenv.config();
 
-import {
+import express from "express";
+import QRCode from "qrcode";
+
+const {
   initializeWhatsApp,
   sendWhatsAppMessage,
-  getLatestQR
-} from "./services/whatsapp.service.js";
-
-
-dotenv.config();
+  getLatestQR,
+} = await import("./services/whatsapp.service.js");
 
 const app = express();
 

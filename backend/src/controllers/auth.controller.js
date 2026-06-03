@@ -6,6 +6,7 @@ import {
 } from "../services/gmail.service.js";
 
 import { saveTokens } from "../utils/tokenstore.js";
+import { startEmailPoller } from "../services/Emailpoller.service.js";
 
 export const googleLogin = (req, res) => {
   const url = getAuthUrl();
@@ -33,6 +34,7 @@ export const googleCallback = async (req, res) => {
       userId: "me",
     });
 
+    startEmailPoller();
     res.json({
       message: "Google Login Success",
       email: profile.data.emailAddress,

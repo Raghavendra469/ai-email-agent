@@ -4,9 +4,15 @@ import qrcode from "qrcode-terminal";
 import QRCode from "qrcode";
 
 import axios from "axios";
-import chromium from "@sparticuz/chromium";
 const { Client, LocalAuth } = pkg;
 
+const puppeteerExecutable = process.env.PUPPETEER_EXECUTABLE_PATH;
+
+if (!puppeteerExecutable) {
+  console.warn(
+    "⚠️ PUPPETEER_EXECUTABLE_PATH is not set. WhatsApp may fail to launch."
+  );
+}
 
 // =====================================
 // CREATE CLIENT
@@ -18,19 +24,13 @@ export const whatsappClient = new Client({
 
   puppeteer: {
     headless: true,
-    executablePath: await chromium.executablePath(),
+    executablePath: puppeteerExecutable,
     args: [
-      ...chromium.args,
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",      // ← most important for Railway
-      "--disable-accelerated-2d-canvas",
-      "--no-first-run",
-      "--no-zygote",
-      "--single-process",             // ← helps on low memory envs
-      "--disable-gpu",
+      "--disable-dev-shm-usage",
     ],
-    protocolTimeout: 60000,           // ← fixes the timeout error
+    protocolTimeout: 60000,
     timeout: 60000,
   },
 
@@ -255,7 +255,7 @@ export const sendWhatsAppMessage =
       const response =
         await axios.post(
 
-          "https://ai-email-backend-7z1f.onrender.com/gmail/approval",
+          "http://localhost:5000/gmail/approval",
 
           {
 

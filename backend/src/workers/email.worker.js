@@ -186,7 +186,7 @@ const worker = new Worker(
 
         // SEND WHATSAPP
         await axios.post(
-          `https://ai-email-agent-production-a12c.up.railway.app/send-message/`,
+          `http://localhost:7000/send-message/`,
           {
             number:
               process.env.WHATSAPP_PHONE_NUMBER,
@@ -226,7 +226,7 @@ const worker = new Worker(
 
 
         await axios.post(
-          `https://ai-email-agent-production-a12c.up.railway.app/send-message/`,
+          `http://localhost:7000/send-message/`,
           {
             number:
               process.env.WHATSAPP_PHONE_NUMBER,
